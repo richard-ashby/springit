@@ -19,6 +19,7 @@ public class Comment {
     @NonNull
     private String body;
 
-    // link
+//    @ManyToOne
+//    private Link link;
 
 }

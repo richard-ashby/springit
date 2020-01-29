@@ -21,6 +21,7 @@ public class Link {
     @NonNull
     private String url;
 
-    // comments
+//    @OneToMany(mappedBy = "Link")
+//    private List<Comment> comments = new ArrayList<>();
 
 }
