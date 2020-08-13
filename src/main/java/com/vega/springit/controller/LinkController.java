@@ -18,30 +18,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.vega.springit.domain.Comment;
 import com.vega.springit.domain.Link;
 import com.vega.springit.repository.CommentRepository;
-import com.vega.springit.repository.LinkRepository;
+import com.vega.springit.service.LinkService;
 
 @Controller
 public class LinkController {
 	
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 
-	private LinkRepository linkRepository;
+	private LinkService linkService;
 	private CommentRepository commentRepository;
 
-	public LinkController(LinkRepository linkRepository, CommentRepository commentRepository) {
-		this.linkRepository = linkRepository;
+	public LinkController(LinkService linkService, CommentRepository commentRepository) {
+		this.linkService = linkService;
 		this.commentRepository = commentRepository;
 	}
 
 	@GetMapping("/")
 	public String list(Model model) {
-		model.addAttribute("links", linkRepository.findAll());
+		model.addAttribute("links", linkService.findAll());
 		return "link/list";
 	}
 	
 	@GetMapping("/link/{id}")
 	public String read(@PathVariable Long id,Model model) {
-	    Optional<Link> link = linkRepository.findById(id);
+	    Optional<Link> link = linkService.findById(id);
 	    if( link.isPresent() ) {
 	        Link currentLink = link.get();
 	        Comment comment = new Comment();
@@ -69,7 +69,7 @@ public class LinkController {
 	        return "link/submit";
 	    } else {
 	        // save our link
-	        linkRepository.save(link);
+	    	linkService.save(link);
 	        logger.info("New Link was saved successfully.");
 	        redirectAttributes
 	                .addAttribute("id", link.getId())
@@ -82,7 +82,7 @@ public class LinkController {
 	@PostMapping("/link/comments")
 	public String addComment(@Valid Comment comment, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 	    if( bindingResult.hasErrors() ) {
-	        logger.info("There wa a a problem add a new comment.");
+	        logger.info("There was a problem adding a new comment.");
 	    } else {
 	        commentRepository.save(comment);
 	        logger.info("New comment was saved successfully.");
