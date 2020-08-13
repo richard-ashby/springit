@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vega.springit.domain.Comment;
 import com.vega.springit.domain.Link;
-import com.vega.springit.repository.CommentRepository;
+import com.vega.springit.service.CommentService;
 import com.vega.springit.service.LinkService;
 
 @Controller
@@ -26,11 +26,11 @@ public class LinkController {
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 
 	private LinkService linkService;
-	private CommentRepository commentRepository;
-
-	public LinkController(LinkService linkService, CommentRepository commentRepository) {
+	private CommentService commentService;
+	
+	public LinkController(LinkService linkService, CommentService commentService) {
 		this.linkService = linkService;
-		this.commentRepository = commentRepository;
+		this.commentService = commentService;
 	}
 
 	@GetMapping("/")
@@ -84,7 +84,7 @@ public class LinkController {
 	    if( bindingResult.hasErrors() ) {
 	        logger.info("There was a problem adding a new comment.");
 	    } else {
-	        commentRepository.save(comment);
+	    	commentService.save(comment);
 	        logger.info("New comment was saved successfully.");
 	    }
 	    return "redirect:/link/" + comment.getLink().getId();
