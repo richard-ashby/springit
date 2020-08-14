@@ -1,8 +1,10 @@
 package com.vega.springit.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.vega.springit.domain.User;
 import com.vega.springit.service.UserService;
 
 @Controller
@@ -25,7 +27,9 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String register(Model model) {
+    	model.addAttribute("user", new User());
+    	model.addAttribute("success", false);
         return "auth/register";
     }
     
