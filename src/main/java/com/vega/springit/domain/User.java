@@ -84,11 +84,6 @@ public class User implements UserDetails {
         return firstName + " " + lastName;
     }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-	}
-
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -96,6 +91,11 @@ public class User implements UserDetails {
     public void addRoles(Set<Role> roles) {
         roles.forEach(this::addRole);
     }
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+	}
 
 	@Override
 	public String getUsername() {
