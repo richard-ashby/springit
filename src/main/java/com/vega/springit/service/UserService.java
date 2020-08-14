@@ -1,5 +1,6 @@
 package com.vega.springit.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -74,5 +75,9 @@ public class UserService {
     
     public void sendWelcomeEmail(User user) {
     	mailService.sendWelcomeEmail(user);
+    }
+    
+    public Optional<User> findByEmailAndActivationCode(String email, String activationCode) {
+    	return userRepository.findByEmailAndActivationCode(email, activationCode);
     }
 }
