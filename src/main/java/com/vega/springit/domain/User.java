@@ -21,6 +21,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.vega.springit.domain.validator.PasswordsMatch;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@PasswordsMatch
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = -4726009356965216226L;
@@ -80,6 +83,10 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String alias;
 
+    @Transient
+    @NotEmpty(message = "Please enter Password Confirmation")
+    private String confirmPassword;
+    
     public String getFullName(){
         return firstName + " " + lastName;
     }

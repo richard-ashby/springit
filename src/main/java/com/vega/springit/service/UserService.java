@@ -31,7 +31,7 @@ public class UserService {
         user.setPassword(secret);
         
         // confirm password
-        //user.setConfirmPassword(secret);
+        user.setConfirmPassword(secret);
 
         // assign a role to this user
         user.addRole(roleService.findByName("ROLE_USER"));
