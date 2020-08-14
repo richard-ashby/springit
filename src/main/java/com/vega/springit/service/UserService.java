@@ -1,5 +1,7 @@
 package com.vega.springit.service;
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -17,10 +19,12 @@ public class UserService {
 	private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final RoleService roleService;
+    private final MailService mailService;
     
-	public UserService(UserRepository userRepository, RoleService roleService) {
+	public UserService(UserRepository userRepository, RoleService roleService, MailService mailService) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
+		this.mailService = mailService;
 		encoder = new BCryptPasswordEncoder();
 	}
 
@@ -37,10 +41,10 @@ public class UserService {
         user.addRole(roleService.findByName("ROLE_USER"));
 
         // set an activation code
-        //user.setActivationCode(UUID.randomUUID().toString());
+        user.setActivationCode(UUID.randomUUID().toString());
 
         // disable the user
-        //user.setEnabled(false);
+        user.setEnabled(false);
         
         // save user
         save(user);
@@ -65,6 +69,10 @@ public class UserService {
 	}
 	
     public void sendActivationEmail(User user) {
-    	// ... do something
+    	mailService.sendActivationEmail(user);
+    }
+    
+    public void sendWelcomeEmail(User user) {
+    	mailService.sendWelcomeEmail(user);
     }
 }
