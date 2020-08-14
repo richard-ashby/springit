@@ -47,7 +47,7 @@ public class User implements UserDetails {
 	private Long id;
 
 	@NonNull
-	@Size(min = 8, max = 20)
+	@Size(min = 8, max = 200)
 	@Column(nullable = false, unique = true)
 	private String email;
 
